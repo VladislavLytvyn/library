@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import FormFromModelCustomUser
 from django.urls import reverse_lazy
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 
 class CustomUserFormView(FormView):
@@ -16,9 +18,33 @@ class CustomUserFormView(FormView):
         return super().form_valid(form)
 
 
+def signupuser(request):
+    if request.method == "GET":
+        return render(request, 'authentication/signupuser.html', {'form': UserCreationForm()})
+    else:
+        if request.POST['password1'] == request.POST['password2']:
+            # user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+            # user.save()
+            try:
+                user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+                user.save()
+                login(request, user)
+                return render(request, 'authentication/succesfullogin.html')
+            except IntegrityError:
+                return render(request, 'authentication/signupuser.html', {'form': UserCreationForm(), 'error': "Please choose another username"})
+        else:
+            return render(request, 'authentication/signupuser.html', {'form': UserCreationForm(), 'error': 'Password did not math'})
+
+
+def logoutuser(request):
+    if request.method == "POST":
+        logout(request)
+        return render(request, 'homepage/homepage.html')
+
+
 def loginuser(request):
     if request.method == 'GET':
-        return render(request, 'authentication/loginuser.html', {'form':AuthenticationForm()})
+        return render(request, 'authentication/loginuser.html', {'form': AuthenticationForm()})
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
@@ -26,4 +52,4 @@ def loginuser(request):
         else:
             login(request, user)
             # return redirect('succesfullogin')
-            return render(request, 'authentication/succesfullogin.html')  #  перевод на дом сторінку??
+            return render(request, 'authentication/succesfullogin.html')

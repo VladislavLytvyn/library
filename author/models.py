@@ -40,8 +40,8 @@ class Author(models.Model):
         :return: author object or None if a user with such ID does not exist
         """
         try:
-            user = Author.objects.get(id=author_id)
-            return user
+            author = Author.objects.get(id=author_id)
+            return author
         except Author.DoesNotExist:
             pass
             # LOGGER.error("User does not exist")
