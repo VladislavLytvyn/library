@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models, IntegrityError
@@ -34,12 +35,15 @@ class CustomUserManager(BaseUserManager):
             email,
             password=password,
         )
-        user.is_admin = True
+        user.is_superuser = True
+        user.is_staff = True
+        user.is_active = True
+        user.role = 1
         user.save(using=self._db)
         return user
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
         This class represents a basic user. \n
         Attributes:
@@ -74,6 +78,7 @@ class CustomUser(AbstractBaseUser):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     role = models.IntegerField(default=0, choices=ROLE_CHOICES)
     is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     objects = CustomUserManager()
@@ -94,82 +99,82 @@ class CustomUser(AbstractBaseUser):
         """
         return f'{self.__class__.__name__}(id={self.id})'
 
-    # @staticmethod
-    # def get_by_id(user_id):
-    #     """
-    #     :param user_id: SERIAL: the id of a user to be found in the DB
-    #     :return: user object or None if a user with such ID does not exist
-    #     """
-    #     try:
-    #         user = CustomUser.objects.get(id=user_id)
-    #         return user
-    #     except CustomUser.DoesNotExist:
-    #         pass
-    #         # LOGGER.error("User does not exist")
-    #
-    # @staticmethod
-    # def get_by_email(email):
-    #     """
-    #     Returns user by email
-    #     :param email: email by which we need to find the user
-    #     :type email: str
-    #     :return: user object or None if a user with such ID does not exist
-    #     """
-    #     try:
-    #         user = CustomUser.objects.get(email=email)
-    #         return user
-    #     except CustomUser.DoesNotExist:
-    #         # LOGGER.error("User does not exist")
-    #         pass
-    #
-    # @staticmethod
-    # def delete_by_id(user_id):
-    #     """
-    #     :param user_id: an id of a user to be deleted
-    #     :type user_id: int
-    #     :return: True if object existed in the db and was removed or False if it didn't exist
-    #     """
-    #
-    #     try:
-    #         user = CustomUser.objects.get(id=user_id)
-    #         user.delete()
-    #         return True
-    #     except CustomUser.DoesNotExist:
-    #         # LOGGER.error("User does not exist")
-    #         pass
-    #     return False
-    #
-    # @staticmethod
-    # def create(email, password, first_name=None, middle_name=None, last_name=None):
-    #     """
-    #     :param first_name: first name of a user
-    #     :type first_name: str
-    #     :param middle_name: middle name of a user
-    #     :type middle_name: str
-    #     :param last_name: last name of a user
-    #     :type last_name: str
-    #     :param email: email of a user
-    #     :type email: str
-    #     :param password: password of a user
-    #     :type password: str
-    #     :return: a new user object which is also written into the DB
-    #     """
-    #     # print(validate_email("96mail.com"))
-    #     data = {}
-    #     data['first_name'] = first_name if first_name else ''
-    #     data['last_name'] = last_name if last_name else ''
-    #     data['middle_name'] = middle_name if middle_name else ''
-    #     data['email'] = email
-    #     user = CustomUser(**data)
-    #     user.set_password(password)
-    #     try:
-    #         validate_email(user.email)
-    #         user.save()
-    #         return user
-    #     except (IntegrityError, AttributeError, ValidationError, DataError):
-    #         # LOGGER.error("Wrong attributes or relational integrity error")
-    #         pass
-    #
+    @staticmethod
+    def get_by_id(user_id):
+        """
+        :param user_id: SERIAL: the id of a user to be found in the DB
+        :return: user object or None if a user with such ID does not exist
+        """
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            return user
+        except CustomUser.DoesNotExist:
+            pass
+            # LOGGER.error("User does not exist")
+
+    @staticmethod
+    def get_by_email(email):
+        """
+        Returns user by email
+        :param email: email by which we need to find the user
+        :type email: str
+        :return: user object or None if a user with such ID does not exist
+        """
+        try:
+            user = CustomUser.objects.get(email=email)
+            return user
+        except CustomUser.DoesNotExist:
+            # LOGGER.error("User does not exist")
+            pass
+
+    @staticmethod
+    def delete_by_id(user_id):
+        """
+        :param user_id: an id of a user to be deleted
+        :type user_id: int
+        :return: True if object existed in the db and was removed or False if it didn't exist
+        """
+
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            user.delete()
+            return True
+        except CustomUser.DoesNotExist:
+            # LOGGER.error("User does not exist")
+            pass
+        return False
+
+    @staticmethod
+    def create(email, password, first_name=None, middle_name=None, last_name=None):
+        """
+        :param first_name: first name of a user
+        :type first_name: str
+        :param middle_name: middle name of a user
+        :type middle_name: str
+        :param last_name: last name of a user
+        :type last_name: str
+        :param email: email of a user
+        :type email: str
+        :param password: password of a user
+        :type password: str
+        :return: a new user object which is also written into the DB
+        """
+        # print(validate_email("96mail.com"))
+        data = {}
+        data['first_name'] = first_name if first_name else ''
+        data['last_name'] = last_name if last_name else ''
+        data['middle_name'] = middle_name if middle_name else ''
+        data['email'] = email
+        user = CustomUser(**data)
+        user.set_password(password)
+        try:
+            validate_email(user.email)
+            user.save()
+            return user
+        except (IntegrityError, AttributeError, ValidationError, DataError):
+            # LOGGER.error("Wrong attributes or relational integrity error")
+            pass
+
     def to_dict(self):
         """
         :return: user id, user first_name, user middle_name, user last_name,
@@ -198,56 +203,56 @@ class CustomUser(AbstractBaseUser):
             'updated_at': int(self.updated_at.timestamp()),
             'role': self.role,
             'is_active': self.is_active}
-    #
-    # def update(self,
-    #            first_name=None,
-    #            last_name=None,
-    #            middle_name=None,
-    #            password=None,
-    #            role=None,
-    #            is_active=None):
-    #     """
-    #     Updates user profile in the database with the specified parameters.\n
-    #     :param first_name: first name of a user
-    #     :type first_name: str
-    #     :param middle_name: middle name of a user
-    #     :type middle_name: str
-    #     :param last_name: last name of a user
-    #     :type last_name: str
-    #     :param password: password of a user
-    #     :type password: str
-    #     :param role: role id
-    #     :type role: int
-    #     :param is_active: activation state
-    #     :type is_active: bool
-    #     :return: None
-    #     """
-    #
-    #     if first_name:
-    #         self.first_name = first_name
-    #     if last_name:
-    #         self.last_name = last_name
-    #     if middle_name:
-    #         self.middle_name = middle_name
-    #     if password:
-    #         self.set_password(password)
-    #     if role:
-    #         self.role = role
-    #     if is_active is not None:
-    #         self.is_active = is_active
-    #     self.save()
-    #
-    # @staticmethod
-    # def get_all():
-    #     """
-    #     returns data for json request with QuerySet of all users
-    #     """
-    #     all_users = CustomUser.objects.all()
-    #     return all_users
-    #
-    # def get_role_name(self):
-    #     """
-    #     returns str role name
-    #     """
-    #     return self.get_role_display()
+
+    def update(self,
+               first_name=None,
+               last_name=None,
+               middle_name=None,
+               password=None,
+               role=None,
+               is_active=None):
+        """
+        Updates user profile in the database with the specified parameters.\n
+        :param first_name: first name of a user
+        :type first_name: str
+        :param middle_name: middle name of a user
+        :type middle_name: str
+        :param last_name: last name of a user
+        :type last_name: str
+        :param password: password of a user
+        :type password: str
+        :param role: role id
+        :type role: int
+        :param is_active: activation state
+        :type is_active: bool
+        :return: None
+        """
+
+        if first_name:
+            self.first_name = first_name
+        if last_name:
+            self.last_name = last_name
+        if middle_name:
+            self.middle_name = middle_name
+        if password:
+            self.set_password(password)
+        if role:
+            self.role = role
+        if is_active is not None:
+            self.is_active = is_active
+        self.save()
+
+    @staticmethod
+    def get_all():
+        """
+        returns data for json request with QuerySet of all users
+        """
+        all_users = CustomUser.objects.all()
+        return all_users
+
+    def get_role_name(self):
+        """
+        returns str role name
+        """
+        return self.get_role_display()
 
