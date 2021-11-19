@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from .models import CustomUser
 
 
 class CustomUserFormView(FormView):
@@ -23,17 +24,19 @@ def signupuser(request):
         return render(request, 'authentication/signupuser.html', {'form': UserCreationForm()})
     else:
         if request.POST['password1'] == request.POST['password2']:
-            # user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
-            # user.save()
             try:
-                user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+                # when standard AUTH_USER_MODEL:
+                # user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+                user = CustomUser.objects.create_user(request.POST['username'], password=request.POST['password1'])
                 user.save()
                 login(request, user)
                 return render(request, 'authentication/succesfullogin.html')
             except IntegrityError:
-                return render(request, 'authentication/signupuser.html', {'form': UserCreationForm(), 'error': "Please choose another username"})
+                return render(request, 'authentication/signupuser.html', {'form': UserCreationForm(),
+                                                                          'error': "Please choose another username"})
         else:
-            return render(request, 'authentication/signupuser.html', {'form': UserCreationForm(), 'error': 'Password did not math'})
+            return render(request, 'authentication/signupuser.html', {'form': UserCreationForm(),
+                                                                      'error': 'Password did not math'})
 
 
 def logoutuser(request):
