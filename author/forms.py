@@ -20,4 +20,4 @@ class AuthorFiltersForm(forms.Form):
 class FormFromModelAuthor(forms.ModelForm):
     class Meta:
         model = Author
-        fields = "__all__"
+        fields = ["name", "surname", "patronymic"]

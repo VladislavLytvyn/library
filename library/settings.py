@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-AUTH_USER_MODEL = 'authentication.CustomUser'  # вхід за поштою. вхід не відбувається
+AUTH_USER_MODEL = 'authentication.CustomUser'  # вхід за поштою. вхід не відбувається// неактуальний коментар??
 
 
 INSTALLED_APPS = [

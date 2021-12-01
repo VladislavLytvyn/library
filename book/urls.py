@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import get_all
-from .views import BookFormView
+from .views import get_all, BookFormView
+from book import views
 
 
 urlpatterns = [
     path('', get_all, name='book'),
-    path('form/', BookFormView.as_view(), name='book_form')
+    path('form/', BookFormView.as_view(), name='book_form'),
+    path('<int:book_pk>/', views.view_book, name='view_book'),
 ]

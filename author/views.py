@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from order.models import Order
 from .models import Author
 from .forms import AuthorFiltersForm, FormFromModelAuthor
@@ -40,3 +40,35 @@ class AuthorFormView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+def view_author(request, author_pk):
+    author = get_object_or_404(Author, pk=author_pk)
+    if request.method == 'GET':
+        form_author = FormFromModelAuthor(instance=author)
+        return render(request, 'author/change_author.html', {'author': author, 'form_author': form_author})
+    else:
+        try:
+            form_author = FormFromModelAuthor(request.POST, instance=author)
+            form_author.save()
+            return redirect('author')
+        except ValueError:
+            return render(request, 'author/change_author.html', {'author': author,
+                                                                 'form_author': form_author,
+                                                                 'error': 'Bad information'})
+
+
+# початок реалізації через models.Author.get_by_id, тобто за "допомогою" модельки
+# def view_author(request, author_pk):
+#     author = Author.get_by_id(author_id=author_pk)
+#     form = FormFromModelAuthor(instance=author)
+#     return render(request, 'author/view_author.html', {author: 'author', form: 'form'})
+
+
+def delete_author(request, author_pk):
+    author = get_object_or_404(Author, pk=author_pk)
+    if request.method == 'POST':
+        author.delete()
+        return redirect('author')
+
+# author.delete() можна author.delete_by_id

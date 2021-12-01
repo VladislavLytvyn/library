@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book
 from author.models import Author
 from authentication.models import CustomUser
@@ -69,3 +69,26 @@ class BookFormView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+def view_book(request, book_pk):
+    book = get_object_or_404(Book, pk=book_pk)
+    if request.method == 'GET':
+        form_book = FormFromModelBook(instance=book)
+        return render(request, 'book/change_book.html', {'book': book, 'form_book': form_book})
+    else:
+        try:
+            form_book = FormFromModelBook(request.POST, instance=book)
+            form_book.save()
+            return redirect('author')
+        except ValueError:
+            return render(request, 'book/change_book.html', {'book': book,
+                                                             'form_book': form_book,
+                                                             'error': 'Bad information'})
+
+
+def delete_book(request, book_pk):
+    book = get_object_or_404(Book, pk=book_pk)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('book')

@@ -1,3 +1,5 @@
+import email
+
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -21,13 +23,15 @@ class CustomUserFormView(FormView):
 
 def signupuser(request):
     if request.method == "GET":
+        # UserCreationForm.username.replace('username', 'email')
         return render(request, 'authentication/signupuser.html', {'form': UserCreationForm()})
     else:
         if request.POST['password1'] == request.POST['password2']:
             try:
                 # when standard AUTH_USER_MODEL:
                 # user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
-                user = CustomUser.objects.create_user(request.POST['username'], password=request.POST['password1'])
+                # USERNAME_FIELD
+                user = CustomUser.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
                 user.save()
                 login(request, user)
                 return render(request, 'authentication/succesfullogin.html')
@@ -37,7 +41,6 @@ def signupuser(request):
         else:
             return render(request, 'authentication/signupuser.html', {'form': UserCreationForm(),
                                                                       'error': 'Password did not math'})
-
 
 def logoutuser(request):
     if request.method == "POST":
