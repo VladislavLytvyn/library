@@ -71,4 +71,12 @@ def delete_author(request, author_pk):
         author.delete()
         return redirect('author')
 
+
 # author.delete() можна author.delete_by_id
+
+# def delete_author(request, author_pk):
+#     author = Author.get_by_id(author_pk)
+#     if request.method == 'POST':
+#         author.delete_by_id(author_pk)
+#         # return redirect('author')
+#         return redirect('author')

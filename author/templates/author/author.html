@@ -2,10 +2,10 @@
 <body>
 {% block title %}<title>Authors</title>{% endblock %}
 {% block content %}
-    <div class="bg-image" style="
-          background-image: url('https://wikiimg.tojsiabtv.com/wikipedia/commons/thumb/2/21/Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg/1200px-Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg');
-           height: 100vh;
-        ">
+{#    <div class="bg-image" style="#}
+{#          background-image: url('https://wikiimg.tojsiabtv.com/wikipedia/commons/thumb/2/21/Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg/1200px-Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg');#}
+{#           height: 100vh;#}
+{#        ">#}
         <br>
         <form method="POST" class='form-inline'>
             {% csrf_token %}
@@ -30,15 +30,15 @@
             <tbody>
             {% for author in authors %}
                 <tr>
-                    <td>{{ author.id }}</td>
-                    <td>{{ author.name }}</td>
-                    <td>{{ author.surname }}</td>
-                    <td>{{ author.patronymic }}</td>
+                    <td><a href="{% url 'view_author' author.id %}">{{ author.id }}</a></td>
+                    <td><a href="{% url 'view_author' author.id %}">{{ author.name }}</a></td>
+                    <td><a href="{%  url 'view_author' author.id %}">{{ author.surname }}</a></td>
+                    <td><a href="{%  url 'view_author' author.id %}">{{ author.patronymic }}</a></td>
                     <td>
                         {% for book in books %}
                             {% for auth in book.authors.all %}
                                 {% if author.id == auth.id %}
-                                    {{ book.name }},
+                                    <a href="{%  url 'view_book' book.id %}">{{ book.name }}</a>,
                                 {% endif %}
                             {% endfor %}
                         {% endfor %}

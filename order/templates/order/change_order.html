@@ -7,18 +7,18 @@
 {#    <div>#}
     {#{% debug %}#}
     <br>
-    <h6>Change book: {{ book.name }}</h6>
+    <h6>Change the order placed {{ order.user.email }}</h6>
     {{ error }}
     <div>
         <form method="POST">
             {% csrf_token %}
-            {{ form_book.as_p}}
+            {{ form_order.as_p }}
             <button type="submit">Save</button>
         </form>
     </div>
     <br>
     <div>
-        <form method="POST" action="{% url 'delete_book' book.id %}">
+        <form method="POST" action="{% url 'delete_order' order.id %}">
             {% csrf_token %}
             <button type="submit">Delete</button>
         </form>

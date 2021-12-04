@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Order
 from .forms import OrderFiltersForm, FormFromModelOrder
 from author.models import Author
@@ -49,7 +49,7 @@ def unpunctual_users():
     result = []
     for elem in Order.get_all():
         if elem.end_at:
-            if elem.end_date.timestamp() > elem.plated_end_at.timestamp():
+            if elem.end_at.timestamp() > elem.plated_end_at.timestamp():
                 result.append(elem)
         else:
             if elem.plated_end_at.timestamp() < now:
@@ -65,3 +65,26 @@ class OrderFormView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+def view_order(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
+    if request.method == 'GET':
+        form_order = FormFromModelOrder(instance=order)
+        return render(request, 'order/change_order.html', {'order': order, 'form_order': form_order})
+    else:
+        try:
+            form_order = FormFromModelOrder(request.POST, instance=order)
+            form_order.save()
+            return redirect('order')
+        except ValueError:
+            return render(request, 'order/change_order.html', {'order': order,
+                                                               'form_order': form_order,
+                                                               'error': 'Bad information'})
+
+
+def delete_order(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
+    if request.method == 'POST':
+        order.delete()
+        return redirect('order')

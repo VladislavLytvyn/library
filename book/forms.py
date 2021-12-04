@@ -37,4 +37,4 @@ class BookForm(forms.Form):
 class FormFromModelBook(forms.ModelForm):
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ['name', 'count', 'description', 'authors']

@@ -44,8 +44,8 @@ class Book(models.Model):
         :return: book object or None if a book with such ID does not exist
         """
         try:
-            user = Book.objects.get(id=book_id)
-            return user
+            book = Book.objects.get(id=book_id)
+            return book
         except Book.DoesNotExist:
             pass
             # LOGGER.error("User does not exist")

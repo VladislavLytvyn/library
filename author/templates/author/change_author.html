@@ -18,7 +18,7 @@
     </div>
     <br>
     <div>
-        <form method="POST">
+        <form method="POST" action="{% url 'delete_author' author.id %}">
             {% csrf_token %}
             <button type="submit">Delete</button>
         </form>

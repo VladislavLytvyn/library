@@ -7,7 +7,7 @@ from django.views.generic import View
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import FormView
 from .forms import BookForm, FormFromModelBook
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, NoReverseMatch
 
 
 @csrf_protect
@@ -22,8 +22,17 @@ def get_all(request):
     if request.method == 'POST':
         get_select_value = request.POST.get('opt')
         get_input_value = request.POST.get('title')
-        if get_select_value == 'book_id' and form.is_valid():
-            books = [Book.get_by_id(int(get_input_value))]
+        if get_select_value == 'book_id':
+            try:
+                books = [Book.get_by_id(int(get_input_value))]
+                print(books)
+                if books == [None]:
+                    return render(request, 'book/book.html', {'form': form,
+                                                              'error_book_id': 'Book does not exist'})
+            except (ValueError, NameError):
+                return render(request, 'book/book.html', {'books': books,
+                                                          'form': form,
+                                                          'error_book_id': 'Book does not exist'})
         elif get_select_value == 'author_name':
             books = show_books_by_name_author(get_input_value)
         elif get_select_value == 'all_name_sorted_asc':
@@ -80,7 +89,7 @@ def view_book(request, book_pk):
         try:
             form_book = FormFromModelBook(request.POST, instance=book)
             form_book.save()
-            return redirect('author')
+            return redirect('book')
         except ValueError:
             return render(request, 'book/change_book.html', {'book': book,
                                                              'form_book': form_book,
