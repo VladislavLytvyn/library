@@ -10,25 +10,28 @@ from django.views.decorators.csrf import csrf_protect
 from django.urls import reverse_lazy
 
 
-get_all_books = Book.get_all()
-get_all_authors = Author.get_all()
-
-
 @csrf_protect
 def get_all(request):
-    context = {}
+    context = dict()
     context['form'] = AuthorFiltersForm()
-    context['books'] = get_all_books
+    context['books'] = Book.get_all()
     if request.method == 'GET':
-        context['authors'] = get_all_authors
+        context['authors'] = Author.get_all()
     elif request.method == 'POST':
-        form = AuthorFiltersForm(request.POST)
-        get_select_value = form['filter_methods'].value()
-        search_param = int(form['search_param'].value()) if form['search_param'].value() and form.is_valid() else None
+        get_select_value = request.POST.get('filter_methods')
+        get_input_value = request.POST.get('search_param')
         if get_select_value == "show specific author":
-            context['authors'] = [Author.get_by_id(search_param)]
+            try:
+                context['authors'] = [Author.get_by_id(get_input_value)]
+                if context['authors'] == [None]:
+                    del context['authors']
+                    context['error_author_id'] = 'Author does not exist'
+                    return render(request, 'author/author.html', context)
+            except ValueError:
+                context['error_author_id'] = 'Author does not exist'
+                return render(request, 'author/author.html', context)
         else:
-            context['authors'] = get_all_authors
+            context['authors'] = Author.get_all()
     return render(request, 'author/author.html', context)
 
 

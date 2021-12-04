@@ -2,14 +2,14 @@ from django import forms
 from .models import Author
 
 
-FILTERING_CHOICES = (
+CHOICE = (
     ("show all", "Show all authors with their books"),
     ("show specific author", "Show specific author with his books (enter id)"),
 )
 
 
 class AuthorFiltersForm(forms.Form):
-    filter_methods = forms.ChoiceField(choices=FILTERING_CHOICES,
+    filter_methods = forms.ChoiceField(choices=CHOICE,
                                        widget=forms.Select(attrs={'id': "inputState",
                                                                   'class': "form-control"}))
     search_param = forms.CharField(required=None,

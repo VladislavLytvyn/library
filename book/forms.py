@@ -5,11 +5,13 @@ from .models import Book
 CHOICE = (
     ("all", "Show all books"),
     ("book_id", "Show specific book (enter id)"),
+    ("book_name", "Show specific book (enter name of book)"),
     ("unordered", "Show all unordered book"),
     ("author_name", "Show all books by name of author"),
     ("all_name_sorted_asc", "Show all books sorted by name asc"),
     ("all_name_sorted_desc", "Show all books sorted by name desc"),
-    ("all_count_sorted", "Show all books sorted by count"),
+    ("all_count_sorted_asc", "Show all books sorted by count (ascending)"),
+    ("all_count_sorted_desc", "Show all books sorted by count (descending)"),
 )
 
 

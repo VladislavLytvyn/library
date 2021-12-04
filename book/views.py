@@ -19,13 +19,12 @@ def get_all(request):
     if request.method == 'GET':
         books = Book.get_all()
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         get_select_value = request.POST.get('opt')
         get_input_value = request.POST.get('title')
         if get_select_value == 'book_id':
             try:
                 books = [Book.get_by_id(int(get_input_value))]
-                print(books)
                 if books == [None]:
                     return render(request, 'book/book.html', {'form': form,
                                                               'error_book_id': 'Book does not exist'})
@@ -33,20 +32,39 @@ def get_all(request):
                 return render(request, 'book/book.html', {'books': books,
                                                           'form': form,
                                                           'error_book_id': 'Book does not exist'})
+        elif get_select_value == 'book_name':
+            books = show_books_by_name_book(get_input_value)
+            if not books:
+                return render(request, 'book/book.html', {'form': form,
+                                                          'error_book_id': 'Book does not exist'})
         elif get_select_value == 'author_name':
             books = show_books_by_name_author(get_input_value)
+            if not books:
+                return render(request, 'book/book.html', {'form': form,
+                                                          'error_book_id': 'Book does not exist'})
         elif get_select_value == 'all_name_sorted_asc':
             books = Book.objects.all().order_by('name')
         elif get_select_value == 'all_name_sorted_desc':
             books = Book.objects.all().order_by('-name')
-        elif get_select_value == 'all_count_sorted':
+        elif get_select_value == 'all_count_sorted_asc':
             books = Book.objects.all().order_by('count')
+        elif get_select_value == 'all_count_sorted_desc':
+            books = Book.objects.all().order_by('-count')
         elif get_select_value == 'unordered':
             books = get_unordered_books()
         else:
             books = Book.get_all()
 
-    return render(request, 'book/book.html', {'books': books, 'form': form})
+    return render(request, 'book/book.html', {'books': books,
+                                              'form': form})
+
+
+def show_books_by_name_book(get_input_value):
+    result_name = []
+    for book in Book.get_all():
+        if book.name == get_input_value:
+            result_name.append(book)
+    return result_name
 
 
 def show_books_by_name_author(get_input_value):
