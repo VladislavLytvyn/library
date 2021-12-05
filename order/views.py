@@ -15,18 +15,18 @@ get_all_orders = Order.get_all()
 
 
 def get_all(request):
-    context = {}
+    context = dict()
     context['form'] = OrderFiltersForm()
     if request.method == 'GET':
         context['orders'] = get_all_orders
     elif request.method == 'POST':
         form = OrderFiltersForm(request.POST)
-        search_param = int(form['search_param'].value()) if form['search_param'].value() else None
+        # search_param = int(form['search_param'].value()) if form['search_param'].value() else None
         get_select_value = form['filter_methods'].value()
         if get_select_value == "not return in time":
             context['orders'] = unpunctual_users()
-        elif get_select_value == "show specific user books":
-            context['orders'] = show_orders_of_specific_user(search_param)
+        # elif get_select_value == "show specific user books":
+        #     context['orders'] = show_orders_of_specific_user(search_param)
         elif get_select_value == "all sort be create date":
             context['orders'] = Order.objects.all().order_by('created_at')
         elif get_select_value == "all sort by planed date":
@@ -36,12 +36,12 @@ def get_all(request):
     return render(request, 'order/order.html', context)
 
 
-def show_orders_of_specific_user(get_input_value):
-    result = []
-    for elem in Order.get_all():
-        if elem.user.id == get_input_value:
-            result.append(elem)
-    return result
+# def show_orders_of_specific_user(get_input_value):
+#     result = []
+#     for elem in Order.get_all():
+#         if elem.user.id == get_input_value:
+#             result.append(elem)
+#     return result
 
 
 def unpunctual_users():
