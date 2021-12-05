@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import FormFromModelCustomUser
+from django.contrib.auth.forms import AuthenticationForm
+from .forms import FormFromModelCustomUser, UserCreationFormWithEmail
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -17,10 +17,6 @@ class CustomUserFormView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-
-
-class UserCreationFormWithEmail(UserCreationForm):
-    UserCreationForm.Meta.fields = ('email',)
 
 
 def signupuser(request):
