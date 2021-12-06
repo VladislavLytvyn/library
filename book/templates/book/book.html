@@ -10,6 +10,8 @@
 {#            {{ form.as_p }}#}
 {#            <button type="submit">Submit form</button>#}
 {#        </form>#}
+
+
         {{ error_book_id }}
         <form method="post" class='form-inline'>
             {% csrf_token %}
@@ -49,6 +51,55 @@
             </tbody>
         </table>
     </div>
+
+
+{#    <div class="row">#}
+{#        <div class="large-3 large-offset-5 columns">#}
+{#            <ul class="pagination">#}
+
+{#                {% if books.has_previous %}#}
+{#                    <li class="arrow"><a href="/page/{{ books.previous_page_number }}/">&laquo;</a></li>#}
+{#                {% else %}#}
+{#                    <li class="arrow unavailable"><a href="">&laquo;</a></li>#}
+{#                {% endif %}#}
+{#                {% for page in books.paginator.page_range %}#}
+{#                    {% if page == books.number %}#}
+{#                        <li class="current"><a href="/page/{{ page }}/">{{ page }}</a></li>#}
+{#                    {% else %}#}
+{#                        <li><a href="/page/{{ page }}/">{{ page }}</a></li>#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#                {% if books.has_next %}#}
+{#                    <li class="arrow"><a href="/page/{{ books.next_page_number }}/">&raquo;</a></li>#}
+{#                {% else %}#}
+{#                    <li class="arrow unavailable"><a href="">&raquo;</a></li>#}
+{#                {% endif %}#}
+                <br>
+                {% if books.has_previous %}
+                    <li><a href="/book/page/{{ books.previous_page_number }}/">&laquo;</a></li>
+                {% else %}
+                    <li><a href="">&laquo;</a></li>
+                {% endif %}
+
+                {% for page in books.paginator.page_range %}
+                    {% if page == books.number %}
+                        <li><a href="/book/page/{{ page }}/">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="/book/page/{{ page }}/">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if books.has_next %}
+                    <li><a href="/book/page/{{ books.next_page_number }}/">&raquo;</a></li>
+                {% else %}
+                    <li><a href="">&raquo;</a></li>
+                {% endif %}
+{#            </ul>#}
+{#        </div>#}
+{#    </div>#}
+
+
+{#    {% include 'homepage/paginator.html' with data=books %}#}
 {% endblock %}
 </body>
 
