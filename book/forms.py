@@ -40,3 +40,4 @@ class FormFromModelBook(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['name', 'count', 'description', 'authors']
+        labels = {'authors': 'Author (press ctrl to select multiple authors)'}
