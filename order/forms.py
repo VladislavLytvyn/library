@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order
+from .models import Order, Book
 
 
 FILTERING_CHOICES = (
@@ -20,7 +20,20 @@ class OrderFiltersForm(forms.Form):
                                                                  'placeholder': "Input text"}))
 
 
+class OrderDateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class FormFromModelOrder(forms.ModelForm):
+    # Рядок нижче змінює віджет поля book на такий, в якому можна вибирати декілька книг.
+    # В моделі Order зв'язок до книги один до багатьох. Поки прийшов до помилки:
+    # ValueError Cannot assign "<QuerySet [Book(id=2), Book(id=5)]>": "Order.book" must be a "Book" instance.
+    # book = forms.ModelMultipleChoiceField(queryset=Book.objects.all())
+
     class Meta:
         model = Order
-        fields = "__all__"
+        fields = '__all__'
+        widgets = {
+            'end_at': OrderDateInput(),
+            'plated_end_at': OrderDateInput(),
+        }
