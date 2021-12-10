@@ -1,32 +1,23 @@
 {% extends 'homepage/homepage.html' %}
-<body>
 {% block title %}<title>Books</title>{% endblock %}
+<body>
 {% block content %}
-{#    <div class="bg-image" style="background-image: url('https://wikiimg.tojsiabtv.com/wikipedia/commons/thumb/2/21/Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg/1200px-Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg');#}
-{#               height: 100vh;">#}
-        <br>
-{#        <form method="POST" enctype="multipart/form-data">#}
-{#            {% csrf_token %}#}
-{#            {{ form.as_p }}#}
-{#            <button type="submit">Submit form</button>#}
-{#        </form>#}
-
-
-
-        <form method="post" class='form-inline'>
-            {% csrf_token %}
-            <div class="form-group mb-2">
-                {{ form.opt }}
-            </div>
-            <div class="form-group mb-2">
-                {{ form.title }}
-            </div>
-            <button type="submit" name='book' class="btn btn-primary mb-2">Submit</button>
-        </form>
+    <div>
+    <br>
+    <form method="post" class='form-inline'>
+        {% csrf_token %}
+        <div class="form-group mb-2">
+            {{ form.opt }}
+        </div>
+        <div class="form-group mb-2">
+            {{ form.title }}
+        </div>
+        <button type="submit" name='book' class="btn btn-primary mb-2">Submit</button>
+    </form>
     <div class="alert-danger">
-    {{ error_book_id }}
+        {{ error_book_id }}
     </div>
-       <div>
+    <div>
         <table class="table table-bordered table-dark">
             <thead class="thead-dark">
             <tr>
@@ -54,75 +45,14 @@
             </tbody>
         </table>
     </div>
-
-
-{#    не бачить деякі стилі, але в цілому цифри стоять в ряд#}
-{#    <div class="add-row">#}
-{#        <div class="large-3 large-offset-5 columns">#}
-{#            <ul class="pagination">#}
-{##}
-{#                <br>#}
-{#                {% if books.has_previous %}#}
-{#                    <li class="arrow"><a href="/book/page/{{ books.previous_page_number }}/">&laquo;</a></li>#}
-{#                {% else %}#}
-{#                    <li class="arrow unavailable"><a href="">&laquo;</a></li>#}
-{#                {% endif %}#}
-{#                {% for page in books.paginator.page_range %}#}
-{#                    {% if page == books.number %}#}
-{#                        <li class="current"><a href="/book/page/{{ page }}/">{{ page }}</a></li>#}
-{#                    {% else %}#}
-{#                        <li><a href="/book/page/{{ page }}/">{{ page }}</a></li>#}
-{#                    {% endif %}#}
-{#                {% endfor %}#}
-{#                {% if books.has_next %}#}
-{#                    <li class="arrow"><a href="/book/page/{{ books.next_page_number }}/">&raquo;</a></li>#}
-{#                {% else %}#}
-{#                    <li class="arrow unavailable"><a href="">&raquo;</a></li>#}
-{#                {% endif %}#}
-{#            </ul>#}
-{#        </div>#}
-{#    </div>#}
-
-
-{#                в цілому готовий код по функціоналу#}
-{#                <br>#}
-{#                {% if books.has_previous %}#}
-{#                    <li><a href="/book/page/{{ books.previous_page_number }}/">&laquo;</a></li>#}
-{#                {% else %}#}
-{#                    <li><a href="">&laquo;</a></li>#}
-{#                {% endif %}#}
-{##}
-{#                {% for page in books.paginator.page_range %}#}
-{#                    {% if page == books.number %}#}
-{#                        <li><a href="/book/page/{{ page }}/">{{ page }}</a></li>#}
-{#                    {% else %}#}
-{#                        <li><a href="/book/page/{{ page }}/">{{ page }}</a></li>#}
-{#                    {% endif %}#}
-{#                {% endfor %}#}
-{##}
-{#                {% if books.has_next %}#}
-{#                    <li><a href="/book/page/{{ books.next_page_number }}/">&raquo;</a></li>#}
-{#                {% else %}#}
-{#                    <li><a href="">&raquo;</a></li>#}
-{#                {% endif %}#}
-
-
-
-
-{#    спроба зробити бутстрапом, поїхали #}
-{#    <div class="add-row">#}
     <div class="container text-center">
-
-
         <nav aria-label="Page navigation example">
-{#        <div class="large-3 large-offset-5 columns">#}
             <ul class="pagination">
                 {% if books.has_previous %}
                     <li class="page-item"><a class="page-link" href="/book/page/{{ books.previous_page_number }}/">&laquo;</a></li>
                 {% else %}
                     <li class="page-item"><a class="page-link" href="">&laquo;</a></li>
                 {% endif %}
-
                 {% for page in books.paginator.page_range %}
                     {% if page == books.number %}
                         <li class="page-item"><a class="page-link" href="/book/page/{{ page }}/">{{ page }}</a></li>
@@ -130,21 +60,14 @@
                         <li class="page-item"><a class="page-link" href="/book/page/{{ page }}/">{{ page }}</a></li>
                     {% endif %}
                 {% endfor %}
-
                 {% if books.has_next %}
                     <li class="page-item"><a class="page-link" href="/book/page/{{ books.next_page_number }}/">&raquo;</a></li>
                 {% else %}
                     <li class="page-item"><a class="page-link" href="">&raquo;</a></li>
                 {% endif %}
             </ul>
-{#        </div>#}
         </nav>
     </div>
-
-{#    </div>#}
-
-
-
+    </div>
 {% endblock %}
 </body>
-

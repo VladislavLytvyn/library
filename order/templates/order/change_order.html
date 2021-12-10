@@ -13,7 +13,7 @@
             </form>
             <form method="POST" action="{% url 'delete_order' order.id %}">
                 {% csrf_token %}
-                <button button class="btn btn-outline-danger" type="submit">Delete</button>
+                <button class="btn btn-outline-danger" type="submit">Delete</button>
             </form>
         </div>
     </div>

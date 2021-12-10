@@ -2,10 +2,7 @@
 <body>
 {% block title %}<title>Orders</title>{% endblock %}
 {% block content %}
-{#    <div class="bg-image" style="#}
-{#      background-image: url('https://wikiimg.tojsiabtv.com/wikipedia/commons/thumb/2/21/Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg/1200px-Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg');#}
-{#       height: 100vh;#}
-{#    ">#}
+    <div>
         <br>
         <form method="POST" class='form-inline'>
             {% csrf_token %}
@@ -33,10 +30,7 @@
                 <tr>
                     <td><a href="{% url 'view_order' order.id %}">{{ order.id }}</a></td>
                     <td>{{ order.user.email }}</td>
-{#                    <td>{{ order.book.name }}</td>#}
-
                     <td><a href="{% url 'view_order' order.id %}">{{ order.book.name }}</a></td>
-{#                    <a href="{% url 'view_book' book.id %}"></a>#}
                     <td><a href="{% url 'view_order' order.id %}">{{ order.created_at }}</a></td>
                     <td><a href="{% url 'view_order' order.id %}">{{ order.end_at }}</a></td>
                     <td><a href="{% url 'view_order' order.id %}">{{ order.plated_end_at }}</a></td>
