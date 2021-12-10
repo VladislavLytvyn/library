@@ -12,7 +12,7 @@
 {#        </form>#}
 
 
-        {{ error_book_id }}
+
         <form method="post" class='form-inline'>
             {% csrf_token %}
             <div class="form-group mb-2">
@@ -23,6 +23,9 @@
             </div>
             <button type="submit" name='book' class="btn btn-primary mb-2">Submit</button>
         </form>
+    <div class="alert-danger">
+    {{ error_book_id }}
+    </div>
        <div>
         <table class="table table-bordered table-dark">
             <thead class="thead-dark">
@@ -108,7 +111,9 @@
 
 {#    спроба зробити бутстрапом, поїхали #}
 {#    <div class="add-row">#}
-    <div class="container text">
+    <div class="container text-center">
+
+
         <nav aria-label="Page navigation example">
 {#        <div class="large-3 large-offset-5 columns">#}
             <ul class="pagination">

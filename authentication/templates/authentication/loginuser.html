@@ -1,15 +1,16 @@
 {% extends 'homepage/homepage.html' %}
-
+{% block title %}<title>Login</title>{% endblock %}
 {% block content %}
-
-    <h1>Login</h1>
-
-    <h2>{{ error }}</h2>
-
-    <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-    </form>
-
+    <div class="alert-dark">
+        <br>
+        <h1>Login</h1>
+        <h2 class="alert-danger">{{ error }}</h2>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-outline-secondary" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

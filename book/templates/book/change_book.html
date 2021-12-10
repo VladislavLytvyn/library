@@ -1,26 +1,20 @@
 {% extends 'homepage/homepage.html' %}
-{% block title %}<title>Change author</title>{% endblock %}
-
+{% block title %}<title>Change book</title>{% endblock %}
 {% block content %}
-{#    <div class="bg-image" style="background-image: url('https://wikiimg.tojsiabtv.com/wikipedia/commons/thumb/2/21/Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg/1200px-Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg');#}
-{#               height: 100vh;">#}
-{#    <div>#}
-    {#{% debug %}#}
-    <br>
-    <h6>Change book: {{ book.name }}</h6>
-    {{ error }}
-    <div>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form_book.as_p}}
-            <button type="submit">Save</button>
-        </form>
-    </div>
-    <br>
-    <div>
-        <form method="POST" action="{% url 'delete_book' book.id %}">
-            {% csrf_token %}
-            <button type="submit">Delete</button>
-        </form>
+    <div class="alert-dark">
+        <br>
+        <h6 class="text-center">Change book: {{ book.name }}</h6>
+        {{ error }}
+        <div class="text-center">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form_book.as_p}}
+                <button class="btn btn-outline-secondary" type="submit">Save</button>
+            </form>
+            <form method="POST" action="{% url 'delete_book' book.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger" type="submit">Delete</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

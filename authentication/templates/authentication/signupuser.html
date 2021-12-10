@@ -1,17 +1,16 @@
 {% extends 'homepage/homepage.html' %}
-
-{#{{ form }}#}
-
+{% block title %}<title>Sign Up</title>{% endblock %}
 {% block content %}
-
-    <h1>Sign Up</h1>
-    <h2>{{ error }}</h2>
-    <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-{#        {{ form.base_fields }}#}
-{#            {{ username.label='asd' }}#}
-{#        <form label for="id_username">Username_my_text:</formlabel>#}
-        <button type="submit">Sign Up</button>
-    </form>
+    <div class="alert-dark">
+        <br>
+        <h1>Sign Up</h1>
+        <h2 class="alert-danger">{{ error }}</h2>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-outline-secondary" type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
