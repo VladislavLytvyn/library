@@ -27,7 +27,6 @@ class Author(models.Model):
         # return str(self.to_dict())[1:-1]
         return str(self.name + " " + self.surname)
 
-
     def __repr__(self):
         """
         This magic method is redefined to show class and id of Author object.

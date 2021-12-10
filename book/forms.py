@@ -26,15 +26,6 @@ class BookForm(forms.Form):
                                                           'class': "form-control mr-sm-2",
                                                           'aria-label': "Search"}))
 
-    # title = forms.IntegerField(label="",
-    #                            required=False,
-    #                            widget=forms.NumberInput(attrs={'class': "form-control mr-sm-2",
-    #                                                            'type': "search",
-    #                                                            'aria-label': "Search"}))
-                            # widget=forms.TextInput(attrs={'class': "form-control mr-sm-2",
-                            #                               'type': "search",
-                            #                               'aria-label': "Search"}))
-
 
 class FormFromModelBook(forms.ModelForm):
     class Meta:

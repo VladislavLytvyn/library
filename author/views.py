@@ -61,13 +61,6 @@ def view_author(request, author_pk):
                                                                  'error': 'Bad information'})
 
 
-# початок реалізації через models.Author.get_by_id, тобто за "допомогою" модельки
-# def view_author(request, author_pk):
-#     author = Author.get_by_id(author_id=author_pk)
-#     form = FormFromModelAuthor(instance=author)
-#     return render(request, 'author/view_author.html', {author: 'author', form: 'form'})
-
-
 def delete_author(request, author_pk):
     author = get_object_or_404(Author, pk=author_pk)
     if request.method == 'POST':
@@ -76,7 +69,6 @@ def delete_author(request, author_pk):
 
 
 # author.delete() можна author.delete_by_id
-
 # def delete_author(request, author_pk):
 #     author = Author.get_by_id(author_pk)
 #     if request.method == 'POST':

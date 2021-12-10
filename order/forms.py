@@ -25,7 +25,7 @@ class OrderDateInput(forms.DateInput):
 
 
 class FormFromModelOrder(forms.ModelForm):
-    # Рядок нижче змінює віджет поля book на такий, в якому можна вибирати декілька книг.
+    # Закоментований рядок нижче змінює віджет поля book на такий, в якому можна вибирати декілька книг.
     # В моделі Order зв'язок до книги один до багатьох. Поки прийшов до помилки (коли в формі вибирати книги):
     # ValueError Cannot assign "<QuerySet [Book(id=2), Book(id=5)]>": "Order.book" must be a "Book" instance.
     # book = forms.ModelMultipleChoiceField(queryset=Book.objects.all())
