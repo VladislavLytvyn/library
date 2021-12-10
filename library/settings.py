@@ -29,6 +29,8 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+AUTH_USER_MODEL = 'authentication.CustomUser'  # вхід за поштою. вхід не відбувається
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

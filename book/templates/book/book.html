@@ -1,0 +1,52 @@
+{% extends 'homepage/homepage.html' %}
+<body>
+{% block title %}<title>Books</title>{% endblock %}
+{% block content %}
+    <div class="bg-image" style="background-image: url('https://wikiimg.tojsiabtv.com/wikipedia/commons/thumb/2/21/Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg/1200px-Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg');
+               height: 100vh;">
+        <br>
+{#        <form method="POST" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <button type="submit">Submit form</button>#}
+{#        </form>#}
+        <form method="post" class='form-inline'>
+            {% csrf_token %}
+            <div class="form-group mb-2">
+                {{ form.opt }}
+            </div>
+            <div class="form-group mb-2">
+                {{ form.title }}
+            </div>
+            <button type="submit" name='book' class="btn btn-primary mb-2">Submit</button>
+        </form>
+        <table class="table table-bordered table-dark">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Author</th>
+                <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.name }}</td>
+                    <td>{{ book.description }}</td>
+                    <td>
+                        {% for author in book.authors.all %}
+                            {{ author.name }} {{ author.patronymic }},
+                        {% endfor %}
+                    </td>
+                    <td>{{ book.count }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+</body>
+
