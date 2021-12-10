@@ -1,57 +1,54 @@
 {% extends 'homepage/homepage.html' %}
-<body>
 {% block title %}<title>Authors</title>{% endblock %}
+<body>
 {% block content %}
-{#    <div class="bg-image" style="#}
-{#          background-image: url('https://wikiimg.tojsiabtv.com/wikipedia/commons/thumb/2/21/Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg/1200px-Bibliothèque_de_l%27Assemblée_Nationale_%28Lunon%29.jpg');#}
-{#           height: 100vh;#}
-{#        ">#}
-        <br>
-        <form method="POST" class='form-inline'>
-            {% csrf_token %}
-            <div class="form-group mb-2">
-                {{ form.filter_methods }}
-            </div>
-            <div class="form-group mb-2">
-                {{ form.search_param }}
-            </div>
-            <button type="submit" value='Submit' class="btn btn-primary mb-2">Submit</button>
-        </form>
-        <div class="alert-danger">
-        {{ error_author_id }}
-        </div>
-        <br>
-        <table class="table table-bordered table-dark">
-            <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Patronymic</th>
-                <th>Books</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for author in authors %}
-                <tr>
-                    <td><a href="{% url 'view_author' author.id %}">{{ author.id }}</a></td>
-                    <td><a href="{% url 'view_author' author.id %}">{{ author.name }}</a></td>
-                    <td><a href="{%  url 'view_author' author.id %}">{{ author.surname }}</a></td>
-                    <td><a href="{%  url 'view_author' author.id %}">{{ author.patronymic }}</a></td>
-                    <td>
-                        {% for book in books %}
-                            {% for auth in book.authors.all %}
-                                {% if author.id == auth.id %}
-                                    <a href="{%  url 'view_book' book.id %}">{{ book.name }}</a>,
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
-                    </td>
-                    <td>{{ book.count }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+     <div>
+         <br>
+         <form method="POST" class='form-inline'>
+             {% csrf_token %}
+             <div class="form-group mb-2">
+                 {{ form.filter_methods }}
+             </div>
+             <div class="form-group mb-2">
+                 {{ form.search_param }}
+             </div>
+             <button type="submit" value='Submit' class="btn btn-primary mb-2">Submit</button>
+         </form>
+         <div class="alert-danger">
+             {{ error_author_id }}
+         </div>
+         <br>
+         <table class="table table-bordered table-dark">
+             <thead class="thead-dark">
+                 <tr>
+                     <th>ID</th>
+                     <th>Name</th>
+                     <th>Surname</th>
+                     <th>Patronymic</th>
+                     <th>Books</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {% for author in authors %}
+                     <tr>
+                         <td><a href="{% url 'view_author' author.id %}">{{ author.id }}</a></td>
+                         <td><a href="{% url 'view_author' author.id %}">{{ author.name }}</a></td>
+                         <td><a href="{%  url 'view_author' author.id %}">{{ author.surname }}</a></td>
+                         <td><a href="{%  url 'view_author' author.id %}">{{ author.patronymic }}</a></td>
+                         <td>
+                             {% for book in books %}
+                                 {% for auth in book.authors.all %}
+                                     {% if author.id == auth.id %}
+                                         <a href="{%  url 'view_book' book.id %}">{{ book.name }}</a>,
+                                     {% endif %}
+                                 {% endfor %}
+                             {% endfor %}
+                         </td>
+                         <td>{{ book.count }}</td>
+                     </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+     </div>
 {% endblock %}
 </body>

@@ -1,7 +1,4 @@
 {% extends 'homepage/homepage.html' %}
-
 {% block content %}
-    {% csrf_token %}
-    <h1 class="alert alert-success">Good work ang good login, {{ user.email }}</h1>
-
+    <h1 class="alert alert-success text-center">Good work ang good login, {{ user.email }}</h1>
 {% endblock %}
