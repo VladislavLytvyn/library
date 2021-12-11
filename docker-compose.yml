@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  lib_web:
+    container_name: lib_web
+    build: .
+    environment:
+      DEBUG: "True"
+      SECRET_KEY: "secretKey"
+      DB_USER: "default"
+      DB_PASSWORD: "secret"
+      DB_HOST: "lib_postgres"
+      DB_PORT: "5432"
+      DB_UNAME: "db"
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - lib_postgres
+
+  lib_postgres:
+    container_name: lib_postgres
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - lib_postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+volumes:
+  lib_postgres:
