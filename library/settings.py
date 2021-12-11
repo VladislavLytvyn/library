@@ -31,10 +31,10 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ['DEBUG']
 
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # ALLOWED_HOSTS = []
 
 SESSION_COOKIE_SECURE = True
@@ -116,11 +116,13 @@ DATABASE = "simpledbmamager"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'library_first_migrations',
-        'USER': 'postgres',
-        'PASSWORD': os.environ['PASSWORD'],
-        'HOST': os.environ['HOST'],
-        'PORT': os.environ['PORT'],
+        # а чем ты руководствовался когда чать значений вынес в енв переменные а часть нет?
+        'NAME': os.environ['DB_UNAME'],
+        'USER': os.environ['DB_USER'],
+        # PASSWORD это плохоен название для енв переменной. у тебя может быть 10 внешних сервисов / БД и тд и ко всем нуен пароль
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 

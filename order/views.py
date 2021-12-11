@@ -10,11 +10,13 @@ from django.views.decorators.csrf import csrf_protect
 import datetime
 from django.urls import reverse_lazy
 
-
-get_all_orders = Order.get_all()
+#нельзя тут делать запросы! они будут выполняться при сборке приложения! а должны только когда идет запрос на страницу
+# get_all_orders = Order.get_all()
 
 
 def get_all(request):
+    get_all_orders = Order.get_all()
+
     context = dict()
     context['form'] = OrderFiltersForm()
     if request.method == 'GET':

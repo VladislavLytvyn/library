@@ -2,8 +2,9 @@
 {% block title %}<title>Add author</title>{% endblock %}
 {% block content %}
     <div class="alert-dark">
+<!--        отступы делаются стилями. https://getbootstrap.com/docs/5.1/utilities/spacing/-->
         <br>
-        <form class="text-center" method="POST" enctype="multipart/form-data">
+        <form class="text-center pt-4" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button class="btn btn-outline-secondary" type="submit">Add author</button>

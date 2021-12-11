@@ -1,5 +1,10 @@
 {% extends 'homepage/homepage.html' %}
-{% block title %}<title>Authors</title>{% endblock %}
+
+<!--пробельчики важны, не лепи в одну строку-->
+{% block title %}
+<title>Authors</title>
+{% endblock %}
+
 <body>
 {% block content %}
      <div>
@@ -18,6 +23,7 @@
              {{ error_author_id }}
          </div>
          <br>
+<!--         верстка не по бутстрапу. весь контент должен быть в контейнере, в рове и в коле. почитай доку https://getbootstrap.com/docs/5.1/layout/grid/ -->
          <table class="table table-bordered table-dark">
              <thead class="thead-dark">
                  <tr>

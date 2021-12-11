@@ -13,6 +13,7 @@ def signupuser(request):
     if request.method == "GET":
         return render(request, 'authentication/signupuser.html', {'form': UserCreationFormWithEmail()})
     else:
+        # это очень смешно что в форме написаны кучу правил валидации пароля при реге а я сделал чувака с паролем 1))
         if request.POST['password1'] == request.POST['password2']:
             try:
                 # when standard AUTH_USER_MODEL:
