@@ -34,7 +34,7 @@ SECRET_KEY = 'django-insecure-4fy7898+u)&jbnjgd9vtx&xc7_pop4$!ymh0ztk6#c^&($(b-@
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 # ALLOWED_HOSTS = []
 
 SESSION_COOKIE_SECURE = True
