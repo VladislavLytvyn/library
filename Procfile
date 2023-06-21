@@ -1,1 +1,1 @@
-web: gunicorn library.wsgi --log-file - --timeout 29
+web: gunicorn library.wsgi --log-file - --timeout 30
