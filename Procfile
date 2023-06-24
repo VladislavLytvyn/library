@@ -1,1 +1,1 @@
-web: gunicorn library.wsgi --workers 5
+web: gunicorn library.wsgi --workers=5
