@@ -11,7 +11,8 @@ import datetime
 from django.urls import reverse_lazy
 
 
-get_all_orders = Order.get_all()
+get_all_orders = []
+# get_all_orders = Order.get_all()
 
 
 def get_all(request):
