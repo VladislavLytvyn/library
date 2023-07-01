@@ -52,7 +52,7 @@ CSRF_COOKIE_SECURE = True
 
 
 # Application definition
-AUTH_USER_MODEL = 'django.contrib.auth.backends.ModelBackend'
+AUTH_USER_MODEL = 'auth.User'
 
 
 INSTALLED_APPS = [
